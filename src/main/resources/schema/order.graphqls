@@ -1,0 +1,11 @@
+type Order {
+    id: ID!
+    userId: ID!
+    product: String!
+}
+
+
+extend type Query {
+    order(id: ID!): Order
+    orders(userId: ID!): [Order]
+}

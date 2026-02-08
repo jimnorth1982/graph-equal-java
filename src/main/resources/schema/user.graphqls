@@ -1,5 +1,6 @@
 type Query {
     users(emailFilter: String): [User]
+    user(id: String!): User
 }
 
 type User {
@@ -7,4 +8,5 @@ type User {
     email: String!
     firstName: String
     lastName: String
+    orders: [Order]
 }
