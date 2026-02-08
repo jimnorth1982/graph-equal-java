@@ -4,7 +4,6 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import org.jimmycodes.graphequaljava.codegen.types.User;
-import org.jimmycodes.graphequaljava.order.OrderRepository;
 
 import java.util.List;
 
