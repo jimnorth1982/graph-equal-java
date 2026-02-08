@@ -45,6 +45,7 @@ generateJava {
     trackInputFieldSet = true
     generateJSpecifyAnnotations = true
     javaGenerateAllConstructor = true
+    language = "JAVA"
 }
 
 tasks.named('test') {
