@@ -1,26 +1,37 @@
 package org.jimmycodes.graphequaljava.user;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import graphql.GraphQLException;
 import org.jimmycodes.graphequaljava.codegen.types.User;
+import org.jimmycodes.graphequaljava.rest.RestApiClient;
+import org.jimmycodes.graphequaljava.rest.UserModel;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 public class UserRepository {
-	private final List<User> users = List.of(
-			User.newBuilder().id("1").firstName("Jimmy").lastName("Joseph").email("jimmygoboom@mailinator.com").build(),
-			User.newBuilder().id("2").firstName("Karl").lastName("Bratanalanalewski").email("karlBratanalanalewski@mailinator.com").build(),
-			User.newBuilder().id("3").firstName("Master").lastName("Shake").email("mastershake@mailinator.com").build()
-	);
 
-	public List<User> users(String emailFilter) {
-		if (emailFilter == null) {
-			return this.users;
-		}
-		return this.users.stream().filter((user) -> user.getEmail().contains(emailFilter)).toList();
-	}
+  private static final Logger logger = Logger.getLogger(UserRepository.class.getName());
 
-	public User user(String id) {
-		return this.users.stream().filter((user) -> user.getId().equals(id)).findFirst().orElse(null);
-	}
+  private final RestApiClient restApiClient;
+
+  public UserRepository(RestApiClient restApiClient) {
+    this.restApiClient = restApiClient;
+  }
+
+  public List<User> users(String emailFilter) {
+    logger.info("UserRepository.users called");
+    return restApiClient.getUsers(emailFilter).stream().map((userModel -> new User(userModel.user_id(), userModel.email_address(), userModel.first_name(), userModel.last_name(), new ArrayList<>()))).toList();
+  }
+
+  public User user(String id) {
+    UserModel userModel = restApiClient.getUser(id);
+    if (userModel == null) {
+      throw new GraphQLException("User with id " + id + " does not exist");
+    }
+    return new User(userModel.user_id(), userModel.email_address(), userModel.first_name(), userModel.last_name(), new ArrayList<>());
+  }
 }

@@ -1,28 +1,33 @@
 package org.jimmycodes.graphequaljava.order;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.jimmycodes.graphequaljava.codegen.types.Order;
+import org.jimmycodes.graphequaljava.rest.OrderModel;
+import org.jimmycodes.graphequaljava.rest.RestApiClient;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 public class OrderRepository {
-	private final List<Order> orders = List.of(
-			Order.newBuilder().id("1").userId("1").product("Yummy Snacks").build(),
-			Order.newBuilder().id("2").userId("1").product("Refreshing Water").build(),
-			Order.newBuilder().id("3").userId("1").product("Rotten Tomatoes").build(),
-			Order.newBuilder().id("4").userId("1").product("Nasty Potatoes").build()
-	);
+  private static final Logger logger = Logger.getLogger(OrderRepository.class.getName());
+
+  private final RestApiClient restApiClient;
+
+  public OrderRepository(RestApiClient restApiClient) {this.restApiClient = restApiClient;}
 
 
-	public List<Order> ordersByUserId(String userId) {
-		if (userId == null) {
-			return null;
-		}
-		return orders.stream().filter((order) -> userId.equals(order.getUserId())).toList();
-	}
+  public List<Order> ordersByUserId(String userId) {
+    Logger.getLogger(OrderRepository.class.getName()).log(Level.INFO, "Getting orders for User: {0}", userId);
+    return restApiClient.getOrders(userId).stream()
+      .map(model -> new Order(model.id(), model.user_id(), model.name()))
+      .toList();
+  }
 
-	public Order order(String orderId) {
-		return orders.stream().filter((order) -> orderId.equals(order.getId())).findFirst().orElse(null);
-	}
+  public Order order(String orderId) {
+    OrderModel model = restApiClient.getOrder(orderId);
+    return new Order(model.id(), model.user_id(), model.name());
+  }
 }
