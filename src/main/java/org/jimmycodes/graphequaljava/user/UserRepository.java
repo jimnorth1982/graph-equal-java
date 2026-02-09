@@ -8,6 +8,7 @@ import graphql.GraphQLException;
 import org.jimmycodes.graphequaljava.codegen.types.User;
 import org.jimmycodes.graphequaljava.rest.RestApiClient;
 import org.jimmycodes.graphequaljava.rest.UserModel;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 
 
@@ -24,7 +25,7 @@ public class UserRepository {
 
   public List<User> users(String emailFilter) {
     logger.info("UserRepository.users called");
-    return restApiClient.getUsers(emailFilter).stream().map((userModel -> new User(userModel.user_id(), userModel.email_address(), userModel.first_name(), userModel.last_name(), new ArrayList<>()))).toList();
+    return restApiClient.getUsers(emailFilter).stream().map(UserRepository::mapUser).toList();
   }
 
   public User user(String id) {
@@ -32,6 +33,15 @@ public class UserRepository {
     if (userModel == null) {
       throw new GraphQLException("User with id " + id + " does not exist");
     }
-    return new User(userModel.user_id(), userModel.email_address(), userModel.first_name(), userModel.last_name(), new ArrayList<>());
+    return mapUser(userModel);
+  }
+
+  private static @NonNull User mapUser(UserModel userModel) {
+    return User.newBuilder()
+      .id(userModel.user_id())
+      .email(userModel.email_address())
+      .firstName(userModel.first_name())
+      .lastName(userModel.last_name())
+      .build();
   }
 }
