@@ -16,9 +16,9 @@ public class UserController {
   private static final Logger LOG = Logger.getLogger(UserController.class.getName());
 
   private final List<UserModel> users = List.of(
-      new UserModel("1", "jimmygoboom@mailinator.com", "Jimmy", "Joseph"),
-      new UserModel("2", "karlBratanalanalewski@mailinator.com", "Karl", "Bratanalanalewski"),
-      new UserModel("3", "mastershake@mailinator.com", "Master", "Shake")
+    new UserModel("1", "jimmygoboom@mailinator.com", "Jimmy", "Joseph"),
+    new UserModel("2", "karlBratanalanalewski@mailinator.com", "Karl", "Bratanalanalewski"),
+    new UserModel("3", "mastershake@mailinator.com", "Master", "Shake")
   );
 
   @GetMapping("/user/{id}")

@@ -21,7 +21,7 @@ public class ClientConfig {
     LOG.info("restClientBuilder called");
     LOG.info("baseUrl: " + baseUrl);
     return RestClient.builder()
-        .baseUrl(baseUrl)
-        .defaultHeader("Accept", "application/json");
+      .baseUrl(baseUrl)
+      .defaultHeader("Accept", "application/json");
   }
 }
