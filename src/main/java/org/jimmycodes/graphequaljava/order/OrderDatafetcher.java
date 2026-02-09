@@ -16,7 +16,7 @@ import org.jspecify.annotations.NonNull;
 
 @DgsComponent
 public class OrderDatafetcher {
-
+  private static final Logger LOG = Logger.getLogger(OrderDatafetcher.class.getName());
   private final OrderRepository orderRepository;
 
   public OrderDatafetcher(OrderRepository orderRepository) {
@@ -36,7 +36,7 @@ public class OrderDatafetcher {
   @DgsData(parentType = "User")
   public List<Order> orders(@NonNull DgsDataFetchingEnvironment dfe) {
     User user = dfe.getSourceOrThrow();
-    Logger.getLogger(OrderDatafetcher.class.getName()).log(Level.INFO, "Getting orders for User: {0}", user);
+    LOG.log(Level.INFO, "Getting orders for User: {0}", user);
     return orderRepository.ordersByUserId(user.getId());
   }
 }
