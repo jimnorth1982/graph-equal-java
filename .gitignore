@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+/graph-equal-web/node_modules/
