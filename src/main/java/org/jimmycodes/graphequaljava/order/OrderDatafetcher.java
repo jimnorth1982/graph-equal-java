@@ -16,6 +16,7 @@ import org.jspecify.annotations.NonNull;
 
 @DgsComponent
 public class OrderDatafetcher {
+
   private static final Logger LOG = Logger.getLogger(OrderDatafetcher.class.getName());
   private final OrderRepository orderRepository;
 

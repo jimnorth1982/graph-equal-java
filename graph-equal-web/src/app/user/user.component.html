@@ -1,0 +1,13 @@
+@if (users$ | async; as userList) {
+  <ul>
+    @for (user of userList; track user.id) {
+      <li><b>{{ user.firstName }} {{ user.lastName }}</b></li>
+      <li>{{ user.email }}</li>
+      <li>{{ JSON.stringify(user.orders) }}</li>
+    } @empty {
+      <li>No users found.</li>
+    }
+  </ul>
+} @else {
+  <p>Loading data from GraphQL...</p>
+}

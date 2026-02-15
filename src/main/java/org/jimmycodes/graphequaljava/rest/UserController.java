@@ -30,6 +30,9 @@ public class UserController {
   @PostMapping("/users")
   public List<UserModel> users(@RequestBody SearchFilter filter) {
     LOG.info("REST request to get Users by filter " + filter);
+    if (filter == null || filter.email == null) {
+      return users;
+    }
     return users.stream().filter((user) -> user.email_address().startsWith(filter.email)).toList();
   }
 }

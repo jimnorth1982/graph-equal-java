@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Apollo, gql} from 'apollo-angular';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class User {
+export class UserService {
   private PATH = "/graphql";
-  private HOST = "http://localhost:4000";
+  private HOST = "http://localhost:8080";
   private fullUrl = this.HOST + this.PATH;
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo) {
+  }
 
   getUsers(): Observable<any> {
     return this.apollo
       .watchQuery({
+        notifyOnNetworkStatusChange: true,
         query: gql`
           query {
             users {
@@ -37,6 +39,9 @@ export class User {
           uri: this.fullUrl,
         },
       })
-      .valueChanges.pipe(map((result: any) => result.data.users));
+      .valueChanges.pipe(map((result: any) => {
+        console.error(JSON.stringify(result));
+        return result.data?.users || []
+      }));
   }
 }
