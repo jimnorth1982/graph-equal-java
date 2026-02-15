@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {UserService} from './user.service';
+import {UserService} from './user-service';
 import {AsyncPipe} from '@angular/common';
 
 @Component({
@@ -8,8 +8,8 @@ import {AsyncPipe} from '@angular/common';
   imports: [
     AsyncPipe
   ],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+  templateUrl: './user-component.html',
+  styleUrl: './user-component.css'
 })
 export class UserComponent implements OnInit {
   users$!: Observable<any[]>;
