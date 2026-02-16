@@ -1,6 +1,17 @@
 # GraphEqualWeb
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+Try installing verdaccio
+```
+>npm install -g verdaccio
+#Run it
+>verdaccio
+#Create new user
+>npm adduser --registry http://localhost:4873
+#Add to .npmrc
+cat "registry=http://localhost:4873/" >> .npmrc
+>npm run build
+>npm publish
+```
 
 ## Development server
 
